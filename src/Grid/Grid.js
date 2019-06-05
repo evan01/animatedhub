@@ -38,7 +38,7 @@ const Hub = ({props, children}) => {
 		trail: 500/tiles.length,
 		from: { opacity: 0, transform: "scale(0)" },
 		enter: { opacity: 1, transform: "scale(1)" },
-		leave: { opacity: 1, transform: "scale(1)" }
+		leave: { opacity: 1, transform: "scale(0)" }
 	});
 
 	const renderGridChildren = () => {
@@ -46,8 +46,8 @@ const Hub = ({props, children}) => {
 			<GridItemContainer
 				selected={(item.value===selected)}
 				onClick={() => (selected === item.value) ? setSelected(-1): setSelected(item.value)}
-				columns={2}
-				rows={2}
+				columns={3}
+				rows={3}
 				key={key}
 			>
 				<GridItem
@@ -84,12 +84,12 @@ const GridItemContainer = styled(animated.div)`
 	width: ${(props) => (props.selected ? getGridWidth(props.columns) : TILE_SIZE)}px;
 	height: ${(props) => (props.selected ? getGridHeight(props.rows) : TILE_SIZE)}px;
 	opacity: ${(props)=>props.opacity};
-	transition: width .3s, height .3s;
+	transition: width .4s, height .4s;
 	grid-column: auto / span ${(props) => props.selected ? props.columns : 1 };
 	padding: 20px;
 	grid-row: auto / span ${(props) => props.selected ? props.columns : 1 };
 	:hover {
-		transform: scale(1.1);
+		transform: ${(props)=>props.selected ? "" : "scale(1.3)"};
 	}
 `;
 

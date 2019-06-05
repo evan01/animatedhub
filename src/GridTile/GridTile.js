@@ -1,5 +1,5 @@
-import React, {useState, useRef} from "react";
-import { useTransition, useSpring, useChain, config, animated } from "react-spring";
+import React, {useRef} from "react";
+import { useTransition, useChain, animated } from "react-spring";
 import styled from "styled-components";
 
 const TileContainer = styled(animated.div)`
@@ -8,7 +8,8 @@ const TileContainer = styled(animated.div)`
 	position: relative;
 	padding: 20px;
 	display: grid;
-	grid-template-rows: repeat(auto-fit, 40px);
+	grid-template-columns: repeat(auto-fit, 140px);
+	grid-template-rows: repeat(auto-fit, 140px);
 	grid-gap: 10px;
 	border-radius: 5px;
 	cursor: pointer;
@@ -16,20 +17,18 @@ const TileContainer = styled(animated.div)`
 `;
 
 const GridTileChildItem = styled(animated.div)`
-  height: 40px;
+  height: 140px;
+  width: 140px;
   background-color: white;
   border-radius: 5px;
   will-change: transform, opacity;
 `;
 
 const GridTile = (props) => {
-	const children = [
-		{name: "test"},
-		{name: "test"},
-		{name: "test"},
-		{name: "test"},
-		{name: "test2"}
-	];
+	let children  = [];
+	for (let i = 0; i < 8; i++) {
+		children[i] = {name: "test"+i};
+	};
 
 	const transRef = useRef();
 	const transitions = useTransition(children, (item) => item.name, {
