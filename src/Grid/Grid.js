@@ -1,8 +1,9 @@
-import React, {useState, useRef} from "react";
-import { useTransition, useSpring, useChain, config, animated } from "react-spring";
+import React, {useState} from "react";
+import { useTransition, animated } from "react-spring";
 import styled from "styled-components";
 import palette from "google-palette";
 import _ from "lodash";
+import GridTile from "../GridTile/GridTile.js";
 
 const TILE_SIZE = 200;
 const GRID_GAP = 25;
@@ -13,8 +14,7 @@ const getGridWidth = (numColumns) => (numColumns*TILE_SIZE + (numColumns-1)*GRID
 const getGridHeight = (numRows) => (numRows*TILE_SIZE + (numRows-1)*GRID_GAP);
 
 const createTile = (name, value, ref) => {
-	const tileChildren = [{name: `childOf${name}1`},{name: `childOf${name}2`},{name: `childOf${name}3`}];
-	return({name: name, value: value, ref: ref, children: tileChildren});
+	return({name: name, value: value, ref: ref});
 };
 
 const getColorScheme = () => {
@@ -33,8 +33,8 @@ const Hub = ({props, children}) => {
 		tiles[i] = createTile("tile"+i,i);
 	}
 
-	//Create the transitions
-	const transitions = useTransition(tiles,(item) => item.value,{
+	//Create the tile transitions
+	const tile_transitions = useTransition(tiles,(item) => item.value,{
 		trail: 500/tiles.length,
 		from: { opacity: 0, transform: "scale(0)" },
 		enter: { opacity: 1, transform: "scale(1)" },
@@ -42,7 +42,7 @@ const Hub = ({props, children}) => {
 	});
 
 	const renderGridChildren = () => {
-		return transitions.map(({ item, key, props }) =>(
+		return tile_transitions.map(({ item, key, props }) =>(
 			<GridItemContainer
 				selected={(item.value===selected)}
 				onClick={() => (selected === item.value) ? setSelected(-1): setSelected(item.value)}
@@ -53,7 +53,9 @@ const Hub = ({props, children}) => {
 				<GridItem
 					style={props}
 					selected={(item.value===selected)}
-				/>
+				>
+					{(item.value===selected) && <GridTile/>}
+				</GridItem>
 			</GridItemContainer>
 
 		));
@@ -66,17 +68,6 @@ const Hub = ({props, children}) => {
 	);
 };
 
-//Spring animation to do the height and width of container
-const GridItemContainer = styled(animated.div)`
-	width: ${(props) => (props.selected ? getGridWidth(props.columns) : TILE_SIZE)}px;
-	height: ${(props) => (props.selected ? getGridHeight(props.rows) : TILE_SIZE)}px;
-	opacity: ${(props)=>props.opacity};
-	transition: width .3s, height .3s;
-	grid-column: auto / span ${(props) => props.selected ? props.columns : 1 };
-	padding: 20px;
-	grid-row: auto / span ${(props) => props.selected ? props.columns : 1 };
-`;
-
 const GridItem = styled(animated.div)`
 	display: flex;
 	flex-grow: 1;
@@ -86,6 +77,17 @@ const GridItem = styled(animated.div)`
 	border-radius: 15px;
 	cursor: pointer;
 	background: ${(props) => getBackgroundColor()};
+`;
+
+//Spring animation to do the height and width of container
+const GridItemContainer = styled(animated.div)`
+	width: ${(props) => (props.selected ? getGridWidth(props.columns) : TILE_SIZE)}px;
+	height: ${(props) => (props.selected ? getGridHeight(props.rows) : TILE_SIZE)}px;
+	opacity: ${(props)=>props.opacity};
+	transition: width .3s, height .3s;
+	grid-column: auto / span ${(props) => props.selected ? props.columns : 1 };
+	padding: 20px;
+	grid-row: auto / span ${(props) => props.selected ? props.columns : 1 };
 	:hover {
 		transform: scale(1.1);
 	}
