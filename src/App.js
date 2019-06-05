@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Gridtile from "./GridTile/GridTile";
+import {createGlobalStyle} from "styled-components";
+import Grid from "./Grid/Grid";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const APPCONTAINER = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body,
+  #root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    user-select: none;
+    background: lightblue;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
+const App = () => {
+	return (
+		<>
+			<APPCONTAINER/>
+			<Grid>
+				<Gridtile/>
+				<Gridtile/>
+				<Gridtile/>
+				<Gridtile/>
+				<Gridtile/>
+				<Gridtile/>
+				<Gridtile/>
+			</Grid>
+		</>
+	);
+};
 
 export default App;
