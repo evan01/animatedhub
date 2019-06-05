@@ -1,6 +1,5 @@
 import React from "react";
-import Gridtile from "./GridTile/GridTile";
-import {createGlobalStyle} from "styled-components";
+import styled, {createGlobalStyle} from "styled-components";
 import Grid from "./Grid/Grid";
 
 const APPCONTAINER = createGlobalStyle`
@@ -14,28 +13,28 @@ const APPCONTAINER = createGlobalStyle`
     padding: 0;
     height: 100%;
     width: 100%;
-    overflow: hidden;
     user-select: none;
     background: lightblue;
-    padding: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 `;
 
+const Title = styled.div`
+	position: fixed;
+	top: 20px;
+	font-size: 30px;
+    font-family: "Operator Mono";
+    src: url("/Users/eknox/Downloads/HCo_OperatorMono/OpenType/OperatorMono-BookItalic.ttf");
+`;
+
 const App = () => {
 	return (
 		<>
 			<APPCONTAINER/>
+			<Title> /* Evans Hackday */ </Title>
 			<Grid>
-				<Gridtile/>
-				<Gridtile/>
-				<Gridtile/>
-				<Gridtile/>
-				<Gridtile/>
-				<Gridtile/>
-				<Gridtile/>
 			</Grid>
 		</>
 	);

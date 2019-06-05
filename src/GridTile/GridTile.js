@@ -1,6 +1,7 @@
 import React, {useRef} from "react";
 import { useTransition, useChain, animated } from "react-spring";
 import styled from "styled-components";
+import GridTileChildItem from "../GridChildItem/GridChildItem";
 
 const TileContainer = styled(animated.div)`
 	width: 100%;
@@ -11,17 +12,10 @@ const TileContainer = styled(animated.div)`
 	grid-template-columns: repeat(auto-fit, 140px);
 	grid-template-rows: repeat(auto-fit, 140px);
 	grid-gap: 10px;
+	z-index:
 	border-radius: 5px;
 	cursor: pointer;
 	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.05);
-`;
-
-const GridTileChildItem = styled(animated.div)`
-  height: 140px;
-  width: 140px;
-  background-color: white;
-  border-radius: 5px;
-  will-change: transform, opacity;
 `;
 
 const GridTile = (props) => {
@@ -44,9 +38,9 @@ const GridTile = (props) => {
 	useChain([transRef], [.1]);
 
 	return (
-		<TileContainer>
+		<TileContainer onClick={()=>console.log("clicked")}>
 			{transitions.map(({ item, key, props }) => (
-				<GridTileChildItem key={key} style={{ ...props}} />
+				<GridTileChildItem item={item} key={key} style={{ ...props}} />
 			))}
 		</TileContainer>
 	);

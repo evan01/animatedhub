@@ -29,28 +29,28 @@ const Hub = ({props, children}) => {
 
 	//Transition animation for each tile added to the hub
 	let tiles = [];
-	for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 14; i++) {
 		tiles[i] = createTile("tile"+i,i);
 	}
 
 	//Create the tile transitions
 	const tile_transitions = useTransition(tiles,(item) => item.value,{
-		trail: 500/tiles.length,
+		trail: 900/tiles.length,
 		from: { opacity: 0, transform: "scale(0)" },
 		enter: { opacity: 1, transform: "scale(1)" },
-		leave: { opacity: 1, transform: "scale(0)" }
+		leave: { opacity: 0, transform: "scale(0)" }
 	});
 
 	const renderGridChildren = () => {
 		return tile_transitions.map(({ item, key, props }) =>(
 			<GridItemContainer
 				selected={(item.value===selected)}
-				onClick={() => (selected === item.value) ? setSelected(-1): setSelected(item.value)}
 				columns={3}
 				rows={3}
 				key={key}
 			>
 				<GridItem
+					onClick={() => (selected === item.value) ? setSelected(-1): setSelected(item.value)}
 					style={props}
 					selected={(item.value===selected)}
 				>
@@ -62,9 +62,11 @@ const Hub = ({props, children}) => {
 	};
 
 	return (
+
 		<GridContainer>
 			{renderGridChildren()}
 		</GridContainer>
+
 	);
 };
 
@@ -76,7 +78,7 @@ const GridItem = styled(animated.div)`
 	width: 100%;
 	border-radius: 15px;
 	cursor: pointer;
-	background: ${(props) => getBackgroundColor()};
+	background: ${()=>getBackgroundColor()};
 `;
 
 //Spring animation to do the height and width of container
@@ -94,18 +96,19 @@ const GridItemContainer = styled(animated.div)`
 `;
 
 const GridContainer = styled(animated.div)`
-	background-color: white;
-	width: 70%;
-	height: 100%;
+	margin-top: 80px;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, ${TILE_SIZE}px);
 	grid-template-rows: repeat(auto-fit, ${TILE_SIZE}px);
 	grid-auto-flow: dense;
 	grid-gap: ${GRID_GAP}px;
 	border-radius: 10px;
-	padding: ${GRID_PADDING}px;
 	overflow: auto;
-	box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.05);
+	padding: ${GRID_PADDING}px;
+	width: 70%;
+	height: 90%;
+	background-color: white;
+	margin-block-end: 40px;
 `;
 
 export default Hub;
